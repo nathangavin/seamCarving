@@ -5,14 +5,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class MainWindow extends Application {
 
@@ -21,9 +21,8 @@ public class MainWindow extends Application {
     private GridPane _grid;
     private Button _fileSelectButton;
 
-    private SelectedImageScene _selectedImageScene;
-
     private Image _chosenImage;
+    private SelectedImageScene _selectedImageScene;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -36,7 +35,7 @@ public class MainWindow extends Application {
         _grid.setAlignment(Pos.TOP_CENTER);
         _grid.setVgap(10);
         _grid.setHgap(10);
-        _grid.setPadding(new Insets(5,5,5,5));
+        _grid.setPadding(new Insets(5, 5, 5, 5));
 
         initialiseElements();
         addElementsToGrid();
@@ -50,7 +49,7 @@ public class MainWindow extends Application {
     private void initialiseElements() {
         _fileSelectButton = new Button("Select Image");
 
-        FileChooser fileChooser = new FileChooser();
+        final FileChooser fileChooser = new FileChooser();
 
         _fileSelectButton.setOnAction(
                 event -> {
@@ -58,10 +57,13 @@ public class MainWindow extends Application {
                     File file = fileChooser.showOpenDialog(_primaryStage);
                     if (file != null) {
                         openFile(file);
+                        _primaryStage = new SelectedImageScene(_primaryStage, _chosenImage);
+                        _primaryStage.show();
                     }
                 }
         );
     }
+
 
     private void addElementsToGrid() {
         _grid.getChildren().clear();
@@ -84,13 +86,14 @@ public class MainWindow extends Application {
 
     private void openFile(File file) {
 
+        System.out.println(file.getAbsolutePath());
+        FileInputStream is = null;
         try {
-            _chosenImage = ImageIO.read(file);
-        } catch (IOException e) {
+            is = new FileInputStream(file.getAbsoluteFile());
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        _chosenImage = new Image(is);
     }
-
 
 }
