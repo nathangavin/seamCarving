@@ -4,12 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -33,6 +29,8 @@ public class MainWindowController {
 	@FXML private TextField originalWidthValue;
 	@FXML private TextField newHeightInput;
 	@FXML private TextField newWidthInput;
+	@FXML private Label newHeightPx;
+	@FXML private Label newWidthPx;
 	
 	private Stage _primaryStage;
 	private FileChooser _fileChooser;
@@ -75,10 +73,19 @@ public class MainWindowController {
         }
         _chosenImage = new Image(is);
         originalImageView.setImage(_chosenImage);
+        populateOriginalDimensions(_chosenImage);
     }
 	
+    private void populateOriginalDimensions(Image image) {
+    	originalHeightValue.setText("" + (int)image.getHeight() + "px");
+    	originalWidthValue.setText("" + (int)image.getWidth() + "px");
+    	
+    	newHeightInput.setText("" + (int)image.getHeight());
+    	newWidthInput.setText("" + (int)image.getWidth());
+    }
+    
 	@FXML protected void handleBeginCarving(ActionEvent event) {
-		
+
 	}
 
 }
