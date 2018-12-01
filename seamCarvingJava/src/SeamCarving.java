@@ -1,7 +1,4 @@
-
 import javafx.application.Application;
-import model.MainWindow;
-
 
 public class SeamCarving {
 

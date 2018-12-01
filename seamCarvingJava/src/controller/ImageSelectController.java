@@ -14,9 +14,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-public class MainWindowController {
+public class ImageSelectController extends CustomController {
 
 	@FXML private Button selectImageButton;
 	@FXML private Button beginCarvingButton;
@@ -34,13 +33,10 @@ public class MainWindowController {
 	@FXML private Label newHeightPx;
 	@FXML private Label newWidthPx;
 	
-	private Stage _primaryStage;
 	private FileChooser _fileChooser;
 	private Image _chosenImage;
 	
-	public void init(Stage primaryStage) {
-		_primaryStage = primaryStage;
-		_primaryStage.show();
+	protected void start() {
 		_fileChooser = new FileChooser();
 		configureFileChooser(_fileChooser);
 	}
@@ -148,6 +144,4 @@ public class MainWindowController {
 		alert.showAndWait();
 	}
 	
-	
-
 }
