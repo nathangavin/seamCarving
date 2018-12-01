@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -85,7 +87,67 @@ public class MainWindowController {
     }
     
 	@FXML protected void handleBeginCarving(ActionEvent event) {
-
+		
+		String height = newHeightInput.getText();
+		String width = newWidthInput.getText();
+		
+		if (_chosenImage == null) {
+			
+			showAlert("Please select an image.");
+			
+		} else if (!isValidInput(height) || !isValidInput(width)) {
+			
+			showAlert("Please enter valid new dimensions.");
+			
+		} else {
+			
+			int heightValue = Integer.parseInt(height);
+			int widthValue = Integer.parseInt(width);
+			
+			if (heightValue > (int) _chosenImage.getHeight() ||
+					widthValue > (int) _chosenImage.getWidth()) {
+				
+				showAlert("Please enter values lower than original dimensions.");
+				
+			} else if (heightValue < (int) _chosenImage.getHeight() ||
+					widthValue < (int) _chosenImage.getWidth()) {
+				
+				showAlert("begin Carving.");
+				
+			} else {
+				
+				showAlert("Please enter values lower than original dimensions.");
+				
+			}
+		}
 	}
+
+	private boolean isValidInput(String input) {
+		
+		if (input == null ||
+				"".equals(input) ||
+				input.length() == 0 ||
+				!input.matches("[0-9]+")) {
+			return false;
+		}
+		
+		int value = Integer.parseInt(input);
+		
+		if (value == 0) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	private void showAlert(String bodyText) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information");
+		alert.setHeaderText(null);
+		alert.setContentText(bodyText);
+		alert.showAndWait();
+	}
+	
+	
 
 }
