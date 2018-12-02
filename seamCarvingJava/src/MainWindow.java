@@ -8,6 +8,8 @@ public class MainWindow extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		
 		primaryStage.setTitle("Seam Carving");
+		primaryStage.setWidth(700);
+		primaryStage.setHeight(450);
 		
 		ImageSelectModel imageSelect = new ImageSelectModel();
 		imageSelect.start(primaryStage);
