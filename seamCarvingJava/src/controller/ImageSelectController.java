@@ -14,6 +14,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import model.CarvingModel;
+import model.CustomModel;
 
 public class ImageSelectController extends CustomController {
 
@@ -108,7 +111,7 @@ public class ImageSelectController extends CustomController {
 			} else if (heightValue < (int) _chosenImage.getHeight() ||
 					widthValue < (int) _chosenImage.getWidth()) {
 				
-				showAlert("begin Carving.");
+				beginCarving(_primaryStage);
 				
 			} else {
 				
@@ -116,6 +119,12 @@ public class ImageSelectController extends CustomController {
 				
 			}
 		}
+	}
+
+	private void beginCarving(Stage primaryStage) {
+		CustomModel carvingModel = new CarvingModel();
+		carvingModel.start(primaryStage);
+		
 	}
 
 	private boolean isValidInput(String input) {
