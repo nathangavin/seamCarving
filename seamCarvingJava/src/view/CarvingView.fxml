@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ImageSelectController">
+     <children>
+      <AnchorPane layoutX="-30.0" layoutY="-17.0" prefHeight="427.0" prefWidth="677.0">
+         <children>
+              <ImageView fx:id="carvingImageView" fitHeight="222.0" fitWidth="265.0" layoutX="83.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
+                 <image>
+                    <Image url="@../../res/select_image.png" />
+                 </image>
+              </ImageView>
+            <TextField fx:id="horizontalTotalSeamsText" editable="false" layoutX="461.0" layoutY="132.0" prefHeight="26.0" prefWidth="73.0" promptText="0" />
+            <Label fx:id="totalSeamsLabel" layoutX="339.0" layoutY="136.0" text="Total Seams to Carve:" />
+            <Label fx:id="currentSeamLabel" layoutX="377.0" layoutY="176.0" text="Current Seam:" />
+            <TextField fx:id="horizontalCurrentSeamsText" editable="false" layoutX="461.0" layoutY="172.0" prefHeight="26.0" prefWidth="73.0" promptText="0" />
+            <Button fx:id="cancelCarvingButton" layoutX="450.0" layoutY="268.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="112.0" text="Cancel Carving" />
+            <TextField fx:id="verticalTotalSeamsText" editable="false" layoutX="548.0" layoutY="132.0" prefHeight="26.0" prefWidth="73.0" promptText="0" />
+            <TextField fx:id="verticalCurrentSeamsText" editable="false" layoutX="548.0" layoutY="172.0" prefHeight="26.0" prefWidth="73.0" promptText="0" />
+            <Label fx:id="totalSeamsLabel1" layoutX="471.0" layoutY="103.0" text="horizontal:" />
+            <Label fx:id="totalSeamsLabel11" layoutX="566.0" layoutY="103.0" text="vertical:" />
+         </children></AnchorPane>
+     </children>
+</AnchorPane>
