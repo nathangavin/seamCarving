@@ -7,9 +7,21 @@ import controller.CustomController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class CarvingModel extends CustomModel {
+	
+	private Image _image;
+	private int _newWidth;
+	private int _newHeight;
+	
+	public CarvingModel(Image image, int newWidth, int newHeight) {
+		super();
+		_image = image;
+		_newHeight = newHeight;
+		_newWidth = newWidth;
+	}
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -27,7 +39,8 @@ public class CarvingModel extends CustomModel {
 		
 		primaryStage.setScene(scene);
 		
-		CustomController controller = fxmlLoader.<CarvingController>getController();
+		CarvingController controller = fxmlLoader.<CarvingController>getController();
+		controller.setImageAndHeightAndWidth(_image, _newHeight, _newWidth);
 		controller.init(primaryStage);
 
 	}

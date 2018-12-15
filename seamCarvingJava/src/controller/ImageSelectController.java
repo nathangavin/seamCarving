@@ -111,7 +111,7 @@ public class ImageSelectController extends CustomController {
 			} else if (heightValue < (int) _chosenImage.getHeight() ||
 					widthValue < (int) _chosenImage.getWidth()) {
 				
-				beginCarving(_primaryStage);
+				beginCarving(_primaryStage, _chosenImage, widthValue, heightValue);
 				
 			} else {
 				
@@ -121,8 +121,8 @@ public class ImageSelectController extends CustomController {
 		}
 	}
 
-	private void beginCarving(Stage primaryStage) {
-		CustomModel carvingModel = new CarvingModel();
+	private void beginCarving(Stage primaryStage, Image chosenImage, int newWidth, int newHeight) {
+		CustomModel carvingModel = new CarvingModel(chosenImage, newWidth, newHeight);
 		carvingModel.start(primaryStage);
 		
 	}
