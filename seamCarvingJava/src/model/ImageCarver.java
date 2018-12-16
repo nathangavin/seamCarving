@@ -45,17 +45,12 @@ public class ImageCarver {
 		for (int i = 0; i < height; i++) {
 			int[] row = new int[width];
 			for (int j = 0; j < width; j++) {
-				row[j] = calculatePixelEnergy(image, i, j);
+				int rawPixelEnergy = calculatePixelEnergy(image, i, j);
+				row[j] = rawPixelEnergy;
+				int pixelEnergy = formatEnergy(rawPixelEnergy); //row[j] == energyArray[i][j]
+				calculatedImage.setRGB(j, i, pixelEnergy);
 			}
 			energyArray[i] = row;
-		}
-		
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
-				int pixelEnergy = formatEnergy(energyArray[i][j]);
-				calculatedImage.setRGB(j, i, pixelEnergy);
-				System.out.println(pixelEnergy);
-			}
 		}
 		
 		return calculatedImage;
@@ -70,7 +65,7 @@ public class ImageCarver {
 		
 		int argb = (int) argb_d;
 		// convert to pixel representative int
-		int p = (argb<<24) | (argb<<16) | (argb<<8) | argb;
+		int p = (255<<24) | (argb<<16) | (argb<<8) | argb;
 		
 		return p;
 	}
@@ -118,8 +113,22 @@ public class ImageCarver {
 		
 		}
 		
-		int pixelEnergy = calculatePixelGradient(upPixel, downPixel) +
-				calculatePixelGradient(leftPixel, rightPixel);
+		int upDownGradient;
+		int leftRightGradient;
+		
+		if (upPixel == downPixel) {
+			upDownGradient = 0;
+		} else {
+			upDownGradient = calculatePixelGradient(upPixel, downPixel);
+		}
+		
+		if (leftPixel == rightPixel) {
+			leftRightGradient = 0;
+		} else {
+			leftRightGradient = calculatePixelGradient(leftPixel, rightPixel);
+		}
+		
+		int pixelEnergy = upDownGradient + leftRightGradient;
 		
 		return pixelEnergy;
 		
@@ -139,10 +148,10 @@ public class ImageCarver {
 		g2 = (pixelTwo >> 8) & 0xff;
 		b2 = pixelTwo & 0xff;
 		
-		int aSquare = (a2-a1) * (a2-a1);
-		int rSquare = (r2-r1) * (r2-r1);
-		int gSquare = (g2-g1) * (g2-g1);
-		int bSquare = (b2-b1) * (b2-b1);
+		int aSquare = (a2-a1) * (a2-a1) * (a2-a1) * (a2-a1);
+		int rSquare = (r2-r1) * (r2-r1) * (r2-r1) * (r2-r1);
+		int gSquare = (g2-g1) * (g2-g1) * (g2-g1) * (g2-g1);
+		int bSquare = (b2-b1) * (b2-b1) * (b2-b1) * (b2-b1);
 		
 		int gradient = aSquare + rSquare + gSquare + bSquare;
 		
