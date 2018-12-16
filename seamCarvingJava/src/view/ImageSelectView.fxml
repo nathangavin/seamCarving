@@ -10,59 +10,59 @@
 
 <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ImageSelectController">
      <children>
-      <AnchorPane layoutX="-30.0" layoutY="-17.0" prefHeight="427.0" prefWidth="677.0">
+      <AnchorPane layoutX="-30.0" layoutY="-17.0" prefHeight="552.0" prefWidth="852.0">
          <children>
             <Label fx:id="newHeightPx" layoutX="622.0" layoutY="165.0" text="px">
                <font>
                   <Font size="12.0" />
                </font>
             </Label>
+              <Button fx:id="selectImageButton" layoutX="187.0" layoutY="416.0" mnemonicParsing="false" onAction="#handleSelectImage" text="Select Image" />
+              <Label fx:id="originalSizeLabel" layoutX="521.0" layoutY="96.0" text="Original">
+                 <font>
+                    <Font name="System Bold" size="19.0" />
+                 </font>
+              </Label>
+              <Label fx:id="newSizeLabel" layoutX="686.0" layoutY="96.0" text="New">
+                 <font>
+                    <Font name="System Bold" size="19.0" />
+                 </font>
+              </Label>
+              <Label fx:id="originalHeightLabel" layoutX="502.0" layoutY="161.0" text="Height:">
+                 <font>
+                    <Font size="12.0" />
+                 </font>
+              </Label>
+              <Label fx:id="originalWidthLabel" layoutX="503.0" layoutY="191.0" text="Width:">
+                 <font>
+                    <Font size="12.0" />
+                 </font>
+              </Label>
+              <Label fx:id="newHeightLabel" layoutX="658.0" layoutY="159.0" text="Height:">
+                 <font>
+                    <Font size="12.0" />
+                 </font>
+              </Label>
+              <Label fx:id="newWidthLabel" layoutX="659.0" layoutY="189.0" text="Width:">
+                 <font>
+                    <Font size="12.0" />
+                 </font>
+              </Label>
+              <TextField fx:id="newHeightInput" layoutX="708.0" layoutY="154.0" prefHeight="26.0" prefWidth="63.0" promptText="0" />
+              <TextField fx:id="newWidthInput" layoutX="708.0" layoutY="184.0" prefHeight="26.0" prefWidth="63.0" promptText="0" />
+              <Button fx:id="beginCarvingButton" layoutX="582.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleBeginCarving" text="Begin Carving" />
+            <TextField fx:id="originalHeightValue" editable="false" layoutX="550.0" layoutY="156.0" prefHeight="26.0" prefWidth="63.0" text="0px" />
+            <TextField fx:id="originalWidthValue" editable="false" layoutX="550.0" layoutY="186.0" prefHeight="26.0" prefWidth="63.0" text="0px" />
+            <Label fx:id="newWidthPx" layoutX="622.0" layoutY="190.0" text="px">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
          </children></AnchorPane>
-        <Button fx:id="selectImageButton" layoutX="128.0" layoutY="324.0" mnemonicParsing="false" onAction="#handleSelectImage" text="Select Image" />
-        <ImageView fx:id="originalImageView" fitHeight="222.0" fitWidth="265.0" layoutX="59.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="originalImageView" fitHeight="287.0" fitWidth="312.0" layoutX="59.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
            <image>
               <Image url="@../../res/select_image.png" />
            </image>
         </ImageView>
-        <Label fx:id="originalSizeLabel" layoutX="365.0" layoutY="83.0" text="Original">
-           <font>
-              <Font name="System Bold" size="19.0" />
-           </font>
-        </Label>
-        <Label fx:id="newSizeLabel" layoutX="516.0" layoutY="83.0" text="New">
-           <font>
-              <Font name="System Bold" size="19.0" />
-           </font>
-        </Label>
-        <Label fx:id="originalHeightLabel" layoutX="346.0" layoutY="148.0" text="Height:">
-           <font>
-              <Font size="12.0" />
-           </font>
-        </Label>
-        <Label fx:id="originalWidthLabel" layoutX="347.0" layoutY="178.0" text="Width:">
-           <font>
-              <Font size="12.0" />
-           </font>
-        </Label>
-        <Label fx:id="newHeightLabel" layoutX="475.0" layoutY="148.0" text="Height:">
-           <font>
-              <Font size="12.0" />
-           </font>
-        </Label>
-        <Label fx:id="newWidthLabel" layoutX="476.0" layoutY="178.0" text="Width:">
-           <font>
-              <Font size="12.0" />
-           </font>
-        </Label>
-        <TextField fx:id="newHeightInput" layoutX="525.0" layoutY="143.0" prefHeight="26.0" prefWidth="63.0" promptText="0" />
-        <TextField fx:id="newWidthInput" layoutX="525.0" layoutY="173.0" prefHeight="26.0" prefWidth="63.0" promptText="0" />
-        <Button fx:id="beginCarvingButton" layoutX="426.0" layoutY="323.0" mnemonicParsing="false" onAction="#handleBeginCarving" text="Begin Carving" />
-      <TextField fx:id="originalHeightValue" editable="false" layoutX="394.0" layoutY="143.0" prefHeight="26.0" prefWidth="63.0" text="0px" />
-      <TextField fx:id="originalWidthValue" editable="false" layoutX="394.0" layoutY="173.0" prefHeight="26.0" prefWidth="63.0" text="0px" />
-      <Label fx:id="newWidthPx" layoutX="592.0" layoutY="178.0" text="px">
-         <font>
-            <Font size="12.0" />
-         </font>
-      </Label>
      </children>
 </AnchorPane>

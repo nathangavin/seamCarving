@@ -8,22 +8,22 @@
 
 <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CarvingController">
      <children>
-      <AnchorPane layoutX="-30.0" layoutY="-17.0" prefHeight="427.0" prefWidth="677.0">
+      <AnchorPane layoutX="-30.0" layoutY="-17.0" prefHeight="542.0" prefWidth="838.0">
          <children>
-              <ImageView fx:id="carvingImageView" fitHeight="222.0" fitWidth="265.0" layoutX="83.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
+              <ImageView fx:id="carvingImageView" fitHeight="375.0" fitWidth="421.0" layoutX="83.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
                  <image>
                     <Image url="@../../res/select_image.png" />
                  </image>
               </ImageView>
-            <Label fx:id="totalSeamsLabel" layoutX="327.0" layoutY="136.0" text="Total Seams to Carve:" />
-            <Label fx:id="currentSeamLabel" layoutX="365.0" layoutY="176.0" text="Current Seam:" />
-            <Button fx:id="cancelCarvingButton" layoutX="450.0" layoutY="268.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="112.0" text="Cancel Carving" />
-            <Label fx:id="horizontalSeamsLabel" layoutX="471.0" layoutY="103.0" text="horizontal:" />
-            <Label fx:id="verticalSeamsLabel" layoutX="566.0" layoutY="103.0" text="vertical:" />
-            <Label fx:id="horizontalTotalSeamsLabel" layoutX="495.0" layoutY="136.0" text="0" />
-            <Label fx:id="horizontalCurrentSeamLabel" layoutX="495.0" layoutY="176.0" text="0" />
-            <Label fx:id="verticalCurrentSeamLabel" layoutX="582.0" layoutY="176.0" text="0" />
-            <Label fx:id="verticalTotalSeamsLabel" layoutX="582.0" layoutY="136.0" text="0" />
+            <Label fx:id="totalSeamsLabel" layoutX="503.0" layoutY="136.0" text="Total Seams to Carve:" />
+            <Label fx:id="currentSeamLabel" layoutX="541.0" layoutY="176.0" text="Current Seam:" />
+            <Button fx:id="cancelCarvingButton" layoutX="626.0" layoutY="268.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="112.0" text="Cancel Carving" />
+            <Label fx:id="horizontalSeamsLabel" layoutX="647.0" layoutY="103.0" text="horizontal:" />
+            <Label fx:id="verticalSeamsLabel" layoutX="742.0" layoutY="103.0" text="vertical:" />
+            <Label fx:id="horizontalTotalSeamsLabel" layoutX="671.0" layoutY="136.0" text="0" />
+            <Label fx:id="horizontalCurrentSeamLabel" layoutX="671.0" layoutY="176.0" text="0" />
+            <Label fx:id="verticalCurrentSeamLabel" layoutX="758.0" layoutY="176.0" text="0" />
+            <Label fx:id="verticalTotalSeamsLabel" layoutX="758.0" layoutY="136.0" text="0" />
          </children></AnchorPane>
      </children>
 </AnchorPane>
