@@ -1,10 +1,15 @@
 package controller;
 
+import java.awt.image.BufferedImage;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import model.ImageCarver;
+import model.SeamDirection;
 
 public class CarvingController extends CustomController {
 
@@ -59,6 +64,10 @@ public class CarvingController extends CustomController {
 		int vSeamsTD = _vertSeamsToDo;
 		int hSeamsTD = _horiSeamsToDo;
 		
+		ImageCarver im = new ImageCarver(_originalImage, SeamDirection.HORIZONTAL);
+		carvingImageView.setImage(im.getImageEnergy());
+		
+		/*
 		while (vSeamsTD > 0 || hSeamsTD > 0) {
 			if (vSeamsTD > 0) {
 				// TODO: vertical Carving
@@ -69,6 +78,8 @@ public class CarvingController extends CustomController {
 				hSeamsTD--;
 			}
 		}
+		*/
+		
 	}
 
 }
