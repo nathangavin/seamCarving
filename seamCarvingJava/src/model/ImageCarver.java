@@ -28,23 +28,68 @@ public class ImageCarver {
 	}
 	
 	public Image getColouredSeam() {
-		int[] seam = findSeam(_imageEnergyArray, _direction);
-		BufferedImage colouredSeam = createColouredSeamImage(_image, seam, _direction);
+		_seam = findSeam(_imageEnergyArray, _direction);
+		BufferedImage colouredSeam = createColouredSeamImage(_image, _seam, _direction);
 		return SwingFXUtils.toFXImage(colouredSeam, null);
 	}
 	
 	public Image getImageWithSeamRemoved() {
-		return SwingFXUtils.toFXImage(_imageWithSeamRemoved, null);
+		BufferedImage removedSeam = removeSeamFromImage(_image, _seam, _direction);
+		return SwingFXUtils.toFXImage(removedSeam, null);
 	}
-	
+
 	private void carveSeam() {
 		// TODO: finish algorithm
 		_imageEnergy = calculateImageEnergy(_image);
 		_seam = findSeam(_imageEnergyArray, _direction);
 		_colouredSeamImage = createColouredSeamImage(_image, _seam, _direction);
+		_imageWithSeamRemoved = removeSeamFromImage(_image, _seam, _direction);
 		
 	}
 	
+	
+	private BufferedImage removeSeamFromImage(BufferedImage image, int[] seam, SeamDirection direction) {
+		
+		if (direction == SeamDirection.VERTICAL) {
+			
+			int height = image.getHeight();
+			int width = image.getWidth();
+			
+			BufferedImage removedSeam = new BufferedImage(width-1, height, BufferedImage.TYPE_INT_ARGB);
+			
+			for (int row = 0; row < height; row++) {
+				int a = 0;
+				for (int column = 0; column < width; column++) {
+					if (seam[row] != column) {
+						removedSeam.setRGB(a, row, image.getRGB(column, row));
+						a++;
+					}
+				}
+			}
+			
+			return removedSeam;
+			
+		} else {
+			
+			int height = image.getHeight();
+			int width = image.getWidth();
+			
+			BufferedImage removedSeam = new BufferedImage(width, height-1, BufferedImage.TYPE_INT_ARGB);
+			
+			for (int column = 0; column < width; column++) {
+				int a = 0;
+				for (int row = 0; row < height; row++) {
+					if (seam[column] != row) {
+						removedSeam.setRGB(column, a, image.getRGB(column, row));
+						a++;
+					}
+				}
+			}
+			
+			return removedSeam;
+		}
+	}
+
 	
 	private BufferedImage createColouredSeamImage(BufferedImage image, int[] seam, SeamDirection direction) {
 		
