@@ -19,15 +19,18 @@ public class ImageCarver {
 	public ImageCarver(Image image, SeamDirection direction) {
 		_image = SwingFXUtils.fromFXImage(image, null);
 		_direction = direction;
-		carveSeam();
+		//carveSeam();
 	}
 	
 	public Image getImageEnergy() {
-		return SwingFXUtils.toFXImage(_imageEnergy, null);
+		BufferedImage imageEnergy = calculateImageEnergy(_image);
+		return SwingFXUtils.toFXImage(imageEnergy, null);
 	}
 	
 	public Image getColouredSeam() {
-		return SwingFXUtils.toFXImage(_colouredSeamImage, null);
+		int[] seam = findSeam(_imageEnergyArray, _direction);
+		BufferedImage colouredSeam = createColouredSeamImage(_image, seam, _direction);
+		return SwingFXUtils.toFXImage(colouredSeam, null);
 	}
 	
 	public Image getImageWithSeamRemoved() {
@@ -38,22 +41,34 @@ public class ImageCarver {
 		// TODO: finish algorithm
 		_imageEnergy = calculateImageEnergy(_image);
 		_seam = findSeam(_imageEnergyArray, _direction);
+		_colouredSeamImage = createColouredSeamImage(_image, _seam, _direction);
 		
-		for (int a : _seam) {
-			System.out.println(a);
-		}
-		
-		//_colouredSeamImage = createColouredSeamImage(_image, _seam, _direction);
 	}
 	
-	/*
+	
 	private BufferedImage createColouredSeamImage(BufferedImage image, int[] seam, SeamDirection direction) {
+		
+		BufferedImage colouredSeam = image;
+		int red = (255<<24) | (255<<16) | (0<<8) | (0);
 		
 		if (direction == SeamDirection.VERTICAL) {
 			
+			for (int row = 0; row < seam.length; row++) {
+				int column = seam[row];
+				colouredSeam.setRGB(column, row, red);
+			}
+			
+		} else {
+			
+			for (int column = 0; column < seam.length; column++) {
+				int row = seam[column];
+				colouredSeam.setRGB(column, row, red);
+			}
 		}
+		
+		return colouredSeam;
 	}
-	*/
+	
 
 	public int[] getSeam() {
 		return _seam;
