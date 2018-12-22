@@ -8,9 +8,6 @@ import javafx.scene.image.Image;
 public class ImageCarver {
 	
 	private BufferedImage _image;
-	private BufferedImage _imageEnergy;
-	private BufferedImage _colouredSeamImage;
-	private BufferedImage _imageWithSeamRemoved;
 	private SeamDirection _direction;
 	private int[] _seam;
 	
@@ -19,7 +16,6 @@ public class ImageCarver {
 	public ImageCarver(Image image, SeamDirection direction) {
 		_image = SwingFXUtils.fromFXImage(image, null);
 		_direction = direction;
-		//carveSeam();
 	}
 	
 	public Image getImageEnergy() {
@@ -37,16 +33,6 @@ public class ImageCarver {
 		BufferedImage removedSeam = removeSeamFromImage(_image, _seam, _direction);
 		return SwingFXUtils.toFXImage(removedSeam, null);
 	}
-
-	private void carveSeam() {
-		// TODO: finish algorithm
-		_imageEnergy = calculateImageEnergy(_image);
-		_seam = findSeam(_imageEnergyArray, _direction);
-		_colouredSeamImage = createColouredSeamImage(_image, _seam, _direction);
-		_imageWithSeamRemoved = removeSeamFromImage(_image, _seam, _direction);
-		
-	}
-	
 	
 	private BufferedImage removeSeamFromImage(BufferedImage image, int[] seam, SeamDirection direction) {
 		
