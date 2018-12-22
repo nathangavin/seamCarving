@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.image.BufferedImage;
+
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
@@ -11,6 +12,9 @@ public class ImageCarver {
 	private BufferedImage _colouredSeamImage;
 	private BufferedImage _imageWithSeamRemoved;
 	private SeamDirection _direction;
+	private int[] _seam;
+	
+	private Pixel[][] _imageEnergyArray;
 	
 	public ImageCarver(Image image, SeamDirection direction) {
 		_image = SwingFXUtils.fromFXImage(image, null);
@@ -31,37 +35,48 @@ public class ImageCarver {
 	}
 	
 	private void carveSeam() {
+		// TODO: finish algorithm
 		_imageEnergy = calculateImageEnergy(_image);
-
+		_seam = findSeam(_imageEnergyArray, _direction);
+		
 	}
 	
+	public int[] getSeam() {
+		return _seam;
+	}
+	
+
 	private BufferedImage calculateImageEnergy(BufferedImage image) {
 		int height = image.getHeight();
 		int width = image.getWidth();
 		
 		BufferedImage calculatedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		int[][] energyArray = new int[height][];
+		Pixel[][] pixelArray = new Pixel[height][];
 		
 		for (int i = 0; i < height; i++) {
-			int[] row = new int[width];
+			Pixel[] row = new Pixel[width];
 			for (int j = 0; j < width; j++) {
 				int rawPixelEnergy = calculatePixelEnergy(image, i, j);
-				row[j] = rawPixelEnergy;
+				row[j] = new Pixel(rawPixelEnergy, i, j);
 				int pixelEnergy = formatEnergy(rawPixelEnergy); //row[j] == energyArray[i][j]
 				calculatedImage.setRGB(j, i, pixelEnergy);
 			}
-			energyArray[i] = row;
+			pixelArray[i] = row;
 		}
+		
+		_imageEnergyArray = pixelArray;
 		
 		return calculatedImage;
 	}
 	
 	private int formatEnergy(int rawEnergyValue) {
 		// energy lower bound = 0
-		// energy upper bound = (255^2)*6 = 390150
+		// energy upper bound = (255^4)*6 = 25369503750
 		double a = (double) rawEnergyValue;
+		
+		double upperBound = (Math.pow(255.0, 2)) * 8;
 		// convert to value between 0 and 255
-		double argb_d = (a/390150)*255;
+		double argb_d = (a/upperBound)*255;
 		
 		int argb = (int) argb_d;
 		// convert to pixel representative int
@@ -148,13 +163,41 @@ public class ImageCarver {
 		g2 = (pixelTwo >> 8) & 0xff;
 		b2 = pixelTwo & 0xff;
 		
-		int aSquare = (a2-a1) * (a2-a1) * (a2-a1) * (a2-a1);
-		int rSquare = (r2-r1) * (r2-r1) * (r2-r1) * (r2-r1);
-		int gSquare = (g2-g1) * (g2-g1) * (g2-g1) * (g2-g1);
-		int bSquare = (b2-b1) * (b2-b1) * (b2-b1) * (b2-b1);
+		double aDiff = a2-a1;
+		double rDiff = r2-r1;
+		double gDiff = g2-g1;
+		double bDiff = b2-b1;
+		
+		double power = 2;
+		
+		int aSquare = (int) Math.pow(aDiff, power);
+		int rSquare = (int) Math.pow(rDiff, power);
+		int gSquare = (int) Math.pow(gDiff, power);
+		int bSquare = (int) Math.pow(bDiff, power);
 		
 		int gradient = aSquare + rSquare + gSquare + bSquare;
 		
 		return gradient;
 	}
+	
+	private int[] findSeam(Pixel[][] imageEnergyArray, SeamDirection direction) {
+		
+		int height = imageEnergyArray.length;
+		int width = imageEnergyArray[0].length;
+		
+		int[][] energyArray = new int[height][width];
+		
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				energyArray[i][j] = imageEnergyArray[i][j].getPixelEnergy();
+			}
+		}
+		
+		ImageData image = new ImageData(energyArray, direction);
+		image.processImage();
+		int[] seam = image.findSeam();
+		
+		return seam;
+	}
+	
 }
