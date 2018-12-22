@@ -24,11 +24,21 @@ public class ImageData {
 	
 	public void processImage() {
 		
-		for (int row = 0; row < _height; row++) {
+		if (_direction == SeamDirection.VERTICAL) {
+			for (int row = 0; row < _height; row++) {
+				for (int column = 0; column < _width; column++) {
+					processPixel(row, column);
+				}
+			}	
+		} else {
 			for (int column = 0; column < _width; column++) {
-				processPixel(row, column);
+				for (int row = 0; row < _height; row++) {
+					processPixel(row, column);
+				}
 			}
 		}
+		
+		
 	}
 
 	private void processPixel(int row, int column) {
@@ -71,19 +81,20 @@ public class ImageData {
 			if (column == 0) {
 				for (int i = 0; i < _height; i++) {
 					_pathEnergies[i][0] = _pixelEnergies[i][0];
-					_pathsForPixels[i][0][0] = i;
+					int[] a = {i};
+					_pathsForPixels[i][0] = a;
 				}
 			} else {
 				
 				int min = 0;
 				
 				if (row == 0) {
-					min = getMin(_pathEnergies[row][column], _pathEnergies[row+1][column+1]);
+					min = getMin(_pathEnergies[row][column-1], _pathEnergies[row+1][column-1]);
 					min++;
 				} else if (row == _height - 1) {
-					min = getMin(_pathEnergies[row-1][column-1], _pathEnergies[row][column]);
+					min = getMin(_pathEnergies[row-1][column-1], _pathEnergies[row][column-1]);
 				} else {
-					min = getMin(_pathEnergies[row-1][column-1], _pathEnergies[row][column], _pathEnergies[row+1][column+1]);
+					min = getMin(_pathEnergies[row-1][column-1], _pathEnergies[row][column-1], _pathEnergies[row+1][column-1]);
 				}
 				
 				_pathEnergies[row][column] = _pixelEnergies[row][column] + _pathEnergies[row-1+min][column-1];

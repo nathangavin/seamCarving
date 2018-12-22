@@ -39,8 +39,22 @@ public class ImageCarver {
 		_imageEnergy = calculateImageEnergy(_image);
 		_seam = findSeam(_imageEnergyArray, _direction);
 		
+		for (int a : _seam) {
+			System.out.println(a);
+		}
+		
+		//_colouredSeamImage = createColouredSeamImage(_image, _seam, _direction);
 	}
 	
+	/*
+	private BufferedImage createColouredSeamImage(BufferedImage image, int[] seam, SeamDirection direction) {
+		
+		if (direction == SeamDirection.VERTICAL) {
+			
+		}
+	}
+	*/
+
 	public int[] getSeam() {
 		return _seam;
 	}
