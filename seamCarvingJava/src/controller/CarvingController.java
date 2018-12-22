@@ -62,25 +62,39 @@ public class CarvingController extends CustomController {
 	private void beginCarving() {
 		
 		int vSeamsTD = _vertSeamsToDo;
-		int hSeamsTD = _horiSeamsToDo;
+		int hSeamsTD = _horiSeamsToDo;	
 		
-		ImageCarver im = new ImageCarver(_originalImage, SeamDirection.HORIZONTAL);
-		carvingImageView.setImage(im.getImageEnergy());
-		carvingImageView.setImage(im.getColouredSeam());
-		carvingImageView.setImage(im.getImageWithSeamRemoved());
-		
-		/*
 		while (vSeamsTD > 0 || hSeamsTD > 0) {
 			if (vSeamsTD > 0) {
-				// TODO: vertical Carving
+				
+				ImageCarver im = new ImageCarver(_currentImage, SeamDirection.VERTICAL);
+				carvingImageView.setImage(im.getImageEnergy());
+				carvingImageView.setImage(im.getColouredSeam());
+				_currentImage = im.getImageWithSeamRemoved();
+				carvingImageView.setImage(_currentImage);
+				
+				int c = Integer.parseInt(verticalCurrentSeamLabel.getText());
+				c++;
+				verticalCurrentSeamLabel.setText("" + c);
+				
 				vSeamsTD--;
 			}
+		
 			if (hSeamsTD > 0) {
-				// TODO: horizontal Carving
+				ImageCarver im = new ImageCarver(_currentImage, SeamDirection.HORIZONTAL);
+				carvingImageView.setImage(im.getImageEnergy());
+				carvingImageView.setImage(im.getColouredSeam());
+				_currentImage = im.getImageWithSeamRemoved();
+				carvingImageView.setImage(_currentImage);
+				
+				int c = Integer.parseInt(horizontalCurrentSeamLabel.getText());
+				c++;
+				horizontalCurrentSeamLabel.setText("" + c);
+				
 				hSeamsTD--;
 			}
 		}
-		*/
+		
 		
 	}
 
