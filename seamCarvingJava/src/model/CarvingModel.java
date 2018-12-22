@@ -3,7 +3,6 @@ package model;
 import java.io.IOException;
 
 import controller.CarvingController;
-import controller.CustomController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

@@ -64,8 +64,11 @@ public class CarvingController extends CustomController {
 		int vSeamsTD = _vertSeamsToDo;
 		int hSeamsTD = _horiSeamsToDo;
 		
-		ImageCarver im = new ImageCarver(_originalImage, SeamDirection.HORIZONTAL);
+		ImageCarver im = new ImageCarver(_originalImage, SeamDirection.VERTICAL);
 		carvingImageView.setImage(im.getImageEnergy());
+		
+		int[] a = im.getSeam();
+		
 		
 		/*
 		while (vSeamsTD > 0 || hSeamsTD > 0) {
