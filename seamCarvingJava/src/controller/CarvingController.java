@@ -1,5 +1,9 @@
 package controller;
 
+import java.util.Timer;
+
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,6 +31,8 @@ public class CarvingController extends CustomController {
 	private int _chosenWidth;
 	private int _vertSeamsToDo;
 	private int _horiSeamsToDo;
+	private int _vSeamsDone;
+	private int _hSeamsDone;
 	
 	@Override
 	protected void start() {
@@ -43,11 +49,52 @@ public class CarvingController extends CustomController {
 		_vertSeamsToDo = totalVerticalSeams;
 		_horiSeamsToDo = totalHorizontalSeams;
 		
+		_vSeamsDone = 0;
+		_hSeamsDone = 0;
+		
+		
 		_currentImage = _originalImage;
 		
 		carvingImageView.setImage(_currentImage);
-		beginCarving();
+		
+		Thread thread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				Runnable updater = new Runnable() {
+
+					@Override
+					public void run() {
+						if (_vertSeamsToDo > 0) {
+							
+							doCarve(_currentImage, SeamDirection.VERTICAL);
+							_vertSeamsToDo--;
+							_vSeamsDone++;
+							verticalCurrentSeamLabel.setText(Integer.toString(_vSeamsDone));
+						}
+						if (_horiSeamsToDo > 0) {
+							
+							doCarve(_currentImage, SeamDirection.HORIZONTAL);
+							_horiSeamsToDo--;
+							_hSeamsDone++;
+							horizontalCurrentSeamLabel.setText(Integer.toString(_hSeamsDone));
+						}	
+					}
+					
+				};
+				
+				while (_vertSeamsToDo > 0 || _horiSeamsToDo > 0) {
+					Platform.runLater(updater);
+				}
+			}
+			
+		});
+		
+		thread.setDaemon(true);
+		thread.start();
+		
 	}
+	
 	
 	public void setImageAndHeightAndWidth(Image image, int height, int width) {
 		_originalImage = image;
@@ -56,43 +103,12 @@ public class CarvingController extends CustomController {
 		
 	}
 	
-	private void beginCarving() {
-		
-		int vSeamsTD = _vertSeamsToDo;
-		int hSeamsTD = _horiSeamsToDo;	
-		
-		while (vSeamsTD > 0 || hSeamsTD > 0) {
-			if (vSeamsTD > 0) {
-				
-				ImageCarver im = new ImageCarver(_currentImage, SeamDirection.VERTICAL);
-				carvingImageView.setImage(im.getImageEnergy());
-				carvingImageView.setImage(im.getColouredSeam());
-				_currentImage = im.getImageWithSeamRemoved();
-				carvingImageView.setImage(_currentImage);
-				
-				int c = Integer.parseInt(verticalCurrentSeamLabel.getText());
-				c++;
-				verticalCurrentSeamLabel.setText("" + c);
-				
-				vSeamsTD--;
-			}
-		
-			if (hSeamsTD > 0) {
-				ImageCarver im = new ImageCarver(_currentImage, SeamDirection.HORIZONTAL);
-				carvingImageView.setImage(im.getImageEnergy());
-				carvingImageView.setImage(im.getColouredSeam());
-				_currentImage = im.getImageWithSeamRemoved();
-				carvingImageView.setImage(_currentImage);
-				
-				int c = Integer.parseInt(horizontalCurrentSeamLabel.getText());
-				c++;
-				horizontalCurrentSeamLabel.setText("" + c);
-				
-				hSeamsTD--;
-			}
-		}
-		
-		
+	private void doCarve(Image image, SeamDirection direction) {
+		ImageCarver im = new ImageCarver(image, direction);
+		carvingImageView.setImage(im.getImageEnergy());
+		carvingImageView.setImage(im.getColouredSeam());
+		_currentImage = im.getImageWithSeamRemoved();
+		carvingImageView.setImage(_currentImage);
 	}
 
 }
