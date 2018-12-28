@@ -58,34 +58,81 @@ public class CarvingController extends CustomController {
 		carvingImageView.setImage(_currentImage);
 		
 		Thread thread = new Thread(new Runnable() {
-
+			
+			private ImageCarver _im;
+			
 			@Override
 			public void run() {
-				Runnable updater = new Runnable() {
-
+				
+				Runnable showEnergy = new Runnable() {
 					@Override
 					public void run() {
-						if (_vertSeamsToDo > 0) {
-							
-							doCarve(_currentImage, SeamDirection.VERTICAL);
-							_vertSeamsToDo--;
-							_vSeamsDone++;
-							verticalCurrentSeamLabel.setText(Integer.toString(_vSeamsDone));
-						}
-						if (_horiSeamsToDo > 0) {
-							
-							doCarve(_currentImage, SeamDirection.HORIZONTAL);
-							_horiSeamsToDo--;
-							_hSeamsDone++;
-							horizontalCurrentSeamLabel.setText(Integer.toString(_hSeamsDone));
-						}	
+						carvingImageView.setImage(_im.getImageEnergy());
 					}
-					
+				};
+				
+				Runnable showSeam = new Runnable() {
+					@Override
+					public void run() {
+						carvingImageView.setImage(_im.getColouredSeam());
+					}
+				};
+				
+				Runnable removeSeamVertical = new Runnable() {
+					@Override
+					public void run() {
+						_currentImage = _im.getImageWithSeamRemoved();
+						carvingImageView.setImage(_currentImage);
+						_vertSeamsToDo--;
+						_vSeamsDone++;
+						verticalCurrentSeamLabel.setText(Integer.toString(_vSeamsDone));
+					}
+				};
+				
+				Runnable removeSeamHorizontal = new Runnable() {
+					@Override
+					public void run() {
+						_currentImage = _im.getImageWithSeamRemoved();
+						carvingImageView.setImage(_currentImage);
+						_horiSeamsToDo--;
+						_hSeamsDone++;
+						horizontalCurrentSeamLabel.setText(Integer.toString(_hSeamsDone));
+					}
 				};
 				
 				while (_vertSeamsToDo > 0 || _horiSeamsToDo > 0) {
-					Platform.runLater(updater);
+					try {
+					
+						long periodBetweenStages = 10;
+						
+						Thread.sleep(periodBetweenStages);
+						if (_vertSeamsToDo > 0) {
+							
+							_im = new ImageCarver(_currentImage, SeamDirection.VERTICAL);
+							Platform.runLater(showEnergy);
+							Thread.sleep(periodBetweenStages);
+							Platform.runLater(showSeam);
+							Thread.sleep(periodBetweenStages);
+							Platform.runLater(removeSeamVertical);
+							
+						}
+						Thread.sleep(periodBetweenStages);
+						if (_horiSeamsToDo > 0) {
+							
+							_im = new ImageCarver(_currentImage, SeamDirection.HORIZONTAL);
+							Platform.runLater(showEnergy);
+							Thread.sleep(periodBetweenStages);
+							Platform.runLater(showSeam);
+							Thread.sleep(periodBetweenStages);
+							Platform.runLater(removeSeamHorizontal);
+							
+						}
+					
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
+				
 			}
 			
 		});
@@ -101,14 +148,6 @@ public class CarvingController extends CustomController {
 		_chosenHeight = height;
 		_chosenWidth = width;
 		
-	}
-	
-	private void doCarve(Image image, SeamDirection direction) {
-		ImageCarver im = new ImageCarver(image, direction);
-		carvingImageView.setImage(im.getImageEnergy());
-		carvingImageView.setImage(im.getColouredSeam());
-		_currentImage = im.getImageWithSeamRemoved();
-		carvingImageView.setImage(_currentImage);
 	}
 
 }
