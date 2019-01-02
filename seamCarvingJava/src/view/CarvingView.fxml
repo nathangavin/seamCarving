@@ -17,7 +17,7 @@
               </ImageView>
             <Label fx:id="totalSeamsLabel" layoutX="503.0" layoutY="136.0" text="Total Seams to Carve:" />
             <Label fx:id="currentSeamLabel" layoutX="541.0" layoutY="176.0" text="Current Seam:" />
-            <Button fx:id="cancelCarvingButton" layoutX="626.0" layoutY="268.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="112.0" text="Cancel Carving" />
+            <Button fx:id="continueButton" layoutX="626.0" layoutY="268.0" mnemonicParsing="false" onAction="#handleContinue" prefHeight="56.0" prefWidth="112.0" text="Continue" />
             <Label fx:id="horizontalSeamsLabel" layoutX="647.0" layoutY="103.0" text="horizontal:" />
             <Label fx:id="verticalSeamsLabel" layoutX="742.0" layoutY="103.0" text="vertical:" />
             <Label fx:id="horizontalTotalSeamsLabel" layoutX="671.0" layoutY="136.0" text="0" />

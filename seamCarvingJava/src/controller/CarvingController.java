@@ -6,9 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import model.CustomModel;
 import model.EmptySeamException;
 import model.ImageCarver;
 import model.SeamDirection;
+import model.SummaryModel;
 
 public class CarvingController extends CustomController {
 
@@ -21,7 +23,7 @@ public class CarvingController extends CustomController {
 	@FXML private Label horizontalCurrentSeamLabel;
 	@FXML private Label verticalCurrentSeamLabel;
 	@FXML private Label verticalTotalSeamsLabel;
-	@FXML private Button cancelCarvingButton;
+	@FXML private Button continueButton;
 	
 	private Image _originalImage;
 	private Image _currentImage;
@@ -43,6 +45,8 @@ public class CarvingController extends CustomController {
 		
 		horizontalTotalSeamsLabel.setText("" + totalHorizontalSeams);
 		verticalTotalSeamsLabel.setText("" + totalVerticalSeams);
+		
+		continueButton.setText("Continue");
 		
 		_vertSeamsToDo = totalVerticalSeams;
 		_horiSeamsToDo = totalHorizontalSeams;
@@ -171,6 +175,13 @@ public class CarvingController extends CustomController {
 		_chosenHeight = height;
 		_chosenWidth = width;
 		
+	}
+	
+	@FXML protected void handleContinue() {
+		if (_horiSeamsToDo == 0 && _vertSeamsToDo == 0) {
+			CustomModel summaryModel = new SummaryModel(_originalImage, _currentImage);
+			summaryModel.start(_primaryStage);			
+		}
 	}
 
 }
