@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import model.EmptySeamException;
 import model.ImageCarver;
 import model.SeamDirection;
 
@@ -67,24 +68,40 @@ public class CarvingController extends CustomController {
 				Runnable showEnergy = new Runnable() {
 					@Override
 					public void run() {
-						carvingImageView.setImage(_im.getImageEnergy());
+						_im.getImageEnergy();
+						//carvingImageView.setImage(_im.getImageEnergy());
 					}
+				};
+				
+				Runnable calculateSeam = new Runnable() {
+
+					@Override
+					public void run() {
+						_im.calculateSeam();
+					}	
 				};
 				
 				Runnable showSeam = new Runnable() {
 					@Override
 					public void run() {
-						carvingImageView.setImage(_im.getColouredSeam());
+						try {
+							carvingImageView.setImage(_im.getColouredSeam());
+						} catch (EmptySeamException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				};
 				
 				Runnable removeSeamVertical = new Runnable() {
 					@Override
 					public void run() {
-						_currentImage = _im.getImageWithSeamRemoved();
+						try {
+							_currentImage = _im.getImageWithSeamRemoved();
+						} catch (EmptySeamException e) {
+							// do nothing
+						}
 						carvingImageView.setImage(_currentImage);
-						_vertSeamsToDo--;
-						_vSeamsDone++;
 						verticalCurrentSeamLabel.setText(Integer.toString(_vSeamsDone));
 					}
 				};
@@ -92,10 +109,13 @@ public class CarvingController extends CustomController {
 				Runnable removeSeamHorizontal = new Runnable() {
 					@Override
 					public void run() {
-						_currentImage = _im.getImageWithSeamRemoved();
+						try {
+							_currentImage = _im.getImageWithSeamRemoved();
+						} catch (EmptySeamException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						carvingImageView.setImage(_currentImage);
-						_horiSeamsToDo--;
-						_hSeamsDone++;
 						horizontalCurrentSeamLabel.setText(Integer.toString(_hSeamsDone));
 					}
 				};
@@ -109,10 +129,13 @@ public class CarvingController extends CustomController {
 						if (_vertSeamsToDo > 0) {
 							
 							_im = new ImageCarver(_currentImage, SeamDirection.VERTICAL);
-							Platform.runLater(showEnergy);
+							showEnergy.run();
+							calculateSeam.run();
 							Thread.sleep(periodBetweenStages);
 							Platform.runLater(showSeam);
 							Thread.sleep(periodBetweenStages);
+							_vertSeamsToDo--;
+							_vSeamsDone++;
 							Platform.runLater(removeSeamVertical);
 							
 						}
@@ -120,10 +143,13 @@ public class CarvingController extends CustomController {
 						if (_horiSeamsToDo > 0) {
 							
 							_im = new ImageCarver(_currentImage, SeamDirection.HORIZONTAL);
-							Platform.runLater(showEnergy);
+							showEnergy.run();
+							calculateSeam.run();
 							Thread.sleep(periodBetweenStages);
 							Platform.runLater(showSeam);
 							Thread.sleep(periodBetweenStages);
+							_horiSeamsToDo--;
+							_hSeamsDone++;
 							Platform.runLater(removeSeamHorizontal);
 							
 						}

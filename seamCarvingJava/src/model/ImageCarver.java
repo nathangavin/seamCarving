@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.image.BufferedImage;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
@@ -23,13 +22,22 @@ public class ImageCarver {
 		return SwingFXUtils.toFXImage(imageEnergy, null);
 	}
 	
-	public Image getColouredSeam() {
+	public void calculateSeam() {
 		_seam = findSeam(_imageEnergyArray, _direction);
+	}
+	
+	public Image getColouredSeam() throws EmptySeamException {
+		if (_seam == null) {
+			throw new EmptySeamException();
+		}
 		BufferedImage colouredSeam = createColouredSeamImage(_image, _seam, _direction);
 		return SwingFXUtils.toFXImage(colouredSeam, null);
 	}
 	
-	public Image getImageWithSeamRemoved() {
+	public Image getImageWithSeamRemoved() throws EmptySeamException {
+		if (_seam == null) {
+			throw new EmptySeamException();
+		}
 		BufferedImage removedSeam = removeSeamFromImage(_image, _seam, _direction);
 		return SwingFXUtils.toFXImage(removedSeam, null);
 	}
