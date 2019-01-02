@@ -113,8 +113,7 @@ public class CarvingController extends CustomController {
 						try {
 							_currentImage = _im.getImageWithSeamRemoved();
 						} catch (EmptySeamException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							// do nothing
 						}
 						carvingImageView.setImage(_currentImage);
 						horizontalCurrentSeamLabel.setText(Integer.toString(_hSeamsDone));

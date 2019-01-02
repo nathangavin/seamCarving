@@ -3,6 +3,8 @@ package controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,11 +51,12 @@ public class ImageSelectController extends CustomController {
         fileChooser.setInitialDirectory(
                 new File(System.getProperty("user.home"))
         );
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                new FileChooser.ExtensionFilter("JPEG", "*.jpeg"),
-                new FileChooser.ExtensionFilter("PNG", "*.png"),
-                new FileChooser.ExtensionFilter("bitmap", "*.bmp")
+        List<String> extensions = new ArrayList<String>();
+        extensions.add("*.jpg");
+        extensions.add("*.png");
+        extensions.add("*.bmp");
+        fileChooser.getExtensionFilters().addAll(	                
+                new FileChooser.ExtensionFilter("Image Files", extensions)
         );
 
     }

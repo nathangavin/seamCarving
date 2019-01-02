@@ -49,7 +49,7 @@ public class ImageCarver {
 			int height = image.getHeight();
 			int width = image.getWidth();
 			
-			BufferedImage removedSeam = new BufferedImage(width-1, height, BufferedImage.TYPE_INT_ARGB);
+			BufferedImage removedSeam = new BufferedImage(width-1, height, BufferedImage.TYPE_INT_RGB);
 			
 			for (int row = 0; row < height; row++) {
 				int a = 0;
@@ -68,7 +68,7 @@ public class ImageCarver {
 			int height = image.getHeight();
 			int width = image.getWidth();
 			
-			BufferedImage removedSeam = new BufferedImage(width, height-1, BufferedImage.TYPE_INT_ARGB);
+			BufferedImage removedSeam = new BufferedImage(width, height-1, BufferedImage.TYPE_INT_RGB);
 			
 			for (int column = 0; column < width; column++) {
 				int a = 0;
@@ -118,7 +118,7 @@ public class ImageCarver {
 		int height = image.getHeight();
 		int width = image.getWidth();
 		
-		BufferedImage calculatedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage calculatedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Pixel[][] pixelArray = new Pixel[height][];
 		
 		for (int i = 0; i < height; i++) {
@@ -148,7 +148,7 @@ public class ImageCarver {
 		
 		int argb = (int) argb_d;
 		// convert to pixel representative int
-		int p = (255<<24) | (argb<<16) | (argb<<8) | argb;
+		int p = (argb<<16) | (argb<<8) | argb;
 		
 		return p;
 	}
@@ -218,32 +218,28 @@ public class ImageCarver {
 	}
 
 	private int calculatePixelGradient(int pixelOne, int pixelTwo) {
-		int a1,r1,g1,b1;
-		int a2,r2,g2,b2;
+		int r1,g1,b1;
+		int r2,g2,b2;
 		
-		a1 = (pixelOne >> 24) & 0xff;
 		r1 = (pixelOne >> 16) & 0xff;
 		g1 = (pixelOne >> 8) & 0xff;
 		b1 = pixelOne & 0xff;
 		
-		a2 = (pixelTwo >> 24) & 0xff;
 		r2 = (pixelTwo >> 16) & 0xff;
 		g2 = (pixelTwo >> 8) & 0xff;
 		b2 = pixelTwo & 0xff;
 		
-		double aDiff = a2-a1;
 		double rDiff = r2-r1;
 		double gDiff = g2-g1;
 		double bDiff = b2-b1;
 		
 		double power = 2;
 		
-		int aSquare = (int) Math.pow(aDiff, power);
 		int rSquare = (int) Math.pow(rDiff, power);
 		int gSquare = (int) Math.pow(gDiff, power);
 		int bSquare = (int) Math.pow(bDiff, power);
 		
-		int gradient = aSquare + rSquare + gSquare + bSquare;
+		int gradient = rSquare + gSquare + bSquare;
 		
 		return gradient;
 	}
